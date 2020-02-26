@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import Style from './Style'
+import Style from './Components/Style'
 // 使用JSX渲染变量
 // const name = 'deadPooI'
 
