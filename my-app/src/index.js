@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import Style from './Style'
+import {default as App } from './App'
+// import Style from './Components/Style'
 // 使用JSX渲染变量
 // const name = 'deadPooI'
 
@@ -45,6 +46,7 @@ ReactDom.render(
   // deadPooI,
   // createApp({title: 'NEWS'}),
   // <App  title='News' content='this is the news'/>,
-  <Style />,
+  // <Style />,
+  <App />,
   document.querySelector('#root')
 )
