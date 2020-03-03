@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TodoHeader, TodoInput, TodoList } from './Components'
+import { TodoHeader, TodoInput, TodoList, Liked } from './Components'
 
 export default class Todo extends Component {
   constructor(props) {
@@ -24,6 +24,19 @@ export default class Todo extends Component {
     }
   }
 
+  addTodoItem = (todoItem) => {
+    const todoList = [...this.state.todoList]
+    const len = todoList.length
+    todoList.push({
+      content: todoItem,
+      isCompleted: false,
+      id: len,
+    })
+    this.setState({
+      todoList,
+    })
+  }
+
   render() {
     const { title, subTitle, btnText, todoList } = this.state 
     return (
@@ -31,8 +44,14 @@ export default class Todo extends Component {
         <TodoHeader title={title}>
           <h3>{subTitle}</h3>
         </TodoHeader>
-        <TodoInput btnText={btnText}/>
-        <TodoList todoList={todoList}/>
+        <TodoInput 
+          btnText={btnText}
+          addTodoItem={this.addTodoItem}
+        />
+        <TodoList 
+          todoList={todoList}
+        />
+        <Liked />
       </>
     )
   }
