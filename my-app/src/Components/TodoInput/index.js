@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import propTypes  from 'prop-types'
 
 export default class TodoInput extends Component {
@@ -7,6 +7,7 @@ export default class TodoInput extends Component {
     this.state = {
       inputValue: '',
     }
+    this.input = createRef()
   }
 
   static propTypes = {
@@ -26,7 +27,25 @@ export default class TodoInput extends Component {
   }
 
   handleAddClick = () => {
-    this.props.addTodoItem(this.state.inputValue)
+    const { inputValue } = this.state
+    if(inputValue) {
+      this.props.addTodoItem(inputValue)
+      this.setState({
+        inputValue: '',
+      }, () => {
+        this.input.current.focus()
+      })
+    }
+  }
+
+  handleEnterUp = (e) => {
+    const { inputValue } = this.state
+    if(e.keyCode === 13 && inputValue) {
+      this.props.addTodoItem(inputValue)
+      this.setState({
+        inputValue: '',
+      })
+    }
   }
 
   render() {
@@ -37,6 +56,8 @@ export default class TodoInput extends Component {
           placeholder="请输入待办事项"
           value={this.state.inputValue}
           onChange={this.handleInputChange}
+          onKeyUp={this.handleEnterUp}
+          ref={this.input}
         />
         <button
           onClick={this.handleAddClick}

@@ -20,7 +20,7 @@ export default class Todo extends Component {
         content: '摸鱼',
         isCompleted: true,
         id: 2,
-      }]
+      },]
     }
   }
 
@@ -37,6 +37,19 @@ export default class Todo extends Component {
     })
   }
 
+  handleCheck = (id) => {
+    this.setState((prevState) => {
+      return {
+        todoList: prevState.todoList.map(todo => {
+          if(todo.id === id) {
+            todo.isCompleted = !todo.isCompleted
+          }
+          return todo
+        })
+      }
+    })
+  }
+
   render() {
     const { title, subTitle, btnText, todoList } = this.state 
     return (
@@ -50,6 +63,7 @@ export default class Todo extends Component {
         />
         <TodoList 
           todoList={todoList}
+          handleCheck={this.handleCheck}
         />
         <Liked />
       </>
