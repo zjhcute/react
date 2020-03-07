@@ -26,18 +26,18 @@ export default class Todo extends Component {
 
   addTodoItem = (todoItem) => {
     const todoList = [...this.state.todoList]
-    const len = todoList.length
+    const id = Math.random() * 10 ** 17
     todoList.push({
       content: todoItem,
       isCompleted: false,
-      id: len,
+      id: id,
     })
     this.setState({
       todoList,
     })
   }
 
-  handleCheck = (id) => {
+  handleCheckChange = (id) => {
     this.setState((prevState) => {
       return {
         todoList: prevState.todoList.map(todo => {
@@ -46,6 +46,14 @@ export default class Todo extends Component {
           }
           return todo
         })
+      }
+    })
+  }
+
+  handleDelClick = (id) => {
+    this.setState(prevState => {
+      return {
+        todoList: prevState.todoList.filter(todo => todo.id !== id)
       }
     })
   }
@@ -63,7 +71,8 @@ export default class Todo extends Component {
         />
         <TodoList 
           todoList={todoList}
-          handleCheck={this.handleCheck}
+          handleCheckChange={this.handleCheckChange}
+          handleDelClick={this.handleDelClick}
         />
         <Liked />
       </>

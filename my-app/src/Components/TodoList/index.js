@@ -16,7 +16,12 @@ export default class TodoList extends Component {
   renderTodoList = () => {
     const { todoList } = this.props
     return todoList.map(item => {
-      return <TodoItem {...item} key={item.id} handleCheck={this.props.handleCheck}/>
+      return <TodoItem 
+              {...item} 
+              key={item.id} 
+              handleCheck={this.props.handleCheck}
+              handleDelClick={this.props.handleDelClick}
+              />
     })
   }
 
