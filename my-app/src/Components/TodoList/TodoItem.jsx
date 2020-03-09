@@ -15,7 +15,7 @@ export default class TodoItem extends Component {
   // }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.isCompleted !== this.props.isCompleted
+    return nextProps.completed !== this.props.completed
   }
 
   handleCheckChange = () => {
@@ -35,17 +35,16 @@ export default class TodoItem extends Component {
   }
 
   render() {
-    const { content, isCompleted, id } = this.props
-    console.log(id, 'render')
+    const { title, completed } = this.props
     return (
       <div>
         <input 
           type="checkbox"
-          checked={isCompleted}
+          checked={completed}
           onChange={this.handleCheckChange}
         />
-        <li style={{display: 'inline-block', paddingRight: '10px'}}>{content}</li>
-        <span>{isCompleted ? '完成' : '未完成'}</span>
+        <li style={{display: 'inline-block', paddingRight: '10px'}}>{title}</li>
+        <span>{completed ? '完成' : '未完成'}</span>
         <button
           onClick={this.handleDelClick}
         >删除</button>

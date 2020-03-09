@@ -8,8 +8,8 @@ export default class TodoList extends Component {
   static propTypes = {
     todoList: propTypes.arrayOf(propTypes.shape({
       id: propTypes.number.isRequired,
-      content: propTypes.string.isRequired,
-      isCompleted: propTypes.bool.isRequired,
+      title: propTypes.string.isRequired,
+      completed: propTypes.bool.isRequired,
     })).isRequired
   }
 
@@ -19,16 +19,21 @@ export default class TodoList extends Component {
       return <TodoItem 
               {...item} 
               key={item.id} 
-              handleCheck={this.props.handleCheck}
+              handleCheckChange={this.props.handleCheckChange}
               handleDelClick={this.props.handleDelClick}
               />
     })
   }
 
+  renderLoading = () => {
+    return <div>isLoading...</div>
+  }
+
   render() {
+    const { isLoading } = this.props
     return (
       <ul>
-        {this.renderTodoList()}
+        {isLoading ? this.renderLoading() : this.renderTodoList()}
       </ul>
     )
   }

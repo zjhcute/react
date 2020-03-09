@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { TodoHeader, TodoInput, TodoList, Liked } from './Components'
-
+import { getTodos } from './services'
 export default class Todo extends Component {
   constructor(props) {
     super(props)
@@ -8,20 +8,32 @@ export default class Todo extends Component {
       title: '待办事项',
       subTitle: '今日事今日毕',
       btnText: 'ADD',
-      todoList: [{
-        content: '吃饭',
-        isCompleted: true,
-        id: 0,
-      }, {
-        content: '睡觉',
-        isCompleted: false,
-        id: 1,
-      }, {
-        content: '摸鱼',
-        isCompleted: true,
-        id: 2,
-      },]
+      todoList: [],
+      isLoading: true,
     }
+  }
+
+  getTodosData = () => {
+    getTodos()
+    .then(res => {
+      if(res.status === 200) {
+        this.setState({
+          todoList: res.data,
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    .finally(() => {
+      this.setState({
+        isLoading: false,
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.getTodosData()
   }
 
   addTodoItem = (todoItem) => {
@@ -29,7 +41,7 @@ export default class Todo extends Component {
     const id = Math.random() * 10 ** 17
     todoList.push({
       content: todoItem,
-      isCompleted: false,
+      completed: false,
       id: id,
     })
     this.setState({
@@ -42,7 +54,7 @@ export default class Todo extends Component {
       return {
         todoList: prevState.todoList.map(todo => {
           if(todo.id === id) {
-            todo.isCompleted = !todo.isCompleted
+            todo.completed = !todo.completed
           }
           return todo
         })
@@ -59,7 +71,7 @@ export default class Todo extends Component {
   }
 
   render() {
-    const { title, subTitle, btnText, todoList } = this.state 
+    const { title, subTitle, btnText, todoList, isLoading } = this.state 
     return (
       <>
         <TodoHeader title={title}>
@@ -73,6 +85,7 @@ export default class Todo extends Component {
           todoList={todoList}
           handleCheckChange={this.handleCheckChange}
           handleDelClick={this.handleDelClick}
+          isLoading={isLoading}
         />
         <Liked />
       </>
